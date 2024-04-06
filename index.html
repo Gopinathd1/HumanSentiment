@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Sentiment Analyzer</title>
+<link rel="stylesheet" href="styles.css">
+<script>
+const positiveWords = ["happy", "joy", "love", "good"];
+const negativeWords = ["sad", "angry", "hate", "bad"];
+function analyzeSentiment(text) {
+const wordCounts = {};
+text.split(/\s+/).forEach(word => (wordCounts[word.toLowerCase()] =
+(wordCounts[word.toLowerCase()] || 0) + 1));
+let sentiment = "Neutral";
+
+let positiveCount = 0;
+let negativeCount = 0;
+for (const word in wordCounts) {
+if (positiveWords.includes(word)) {
+positiveCount += wordCounts[word];
+} else if (negativeWords.includes(word)) {
+negativeCount += wordCounts[word];
+}
+}
+if (positiveCount > negativeCount) {
+sentiment = "Positive";
+} else if (negativeCount > positiveCount) {
+sentiment = "Negative";
+}
+return sentiment;
+}
+function analyzeText() {
+const text = document.getElementById("inputText").value;
+const sentiment = analyzeSentiment(text);
+document.getElementById("sentimentOutput").textContent = "Sentiment: " + sentiment;
+
+}
+function clearInput() {
+    document.getElementById("inputText").value = ""; 
+    clearOutput(); // Clear the output
+}
+function clearOutput() {
+    document.getElementById("sentimentOutput").textContent = ""; 
+}
+</script>
+</head>
+<body>
+  <h1>Human Sentiment</h1>
+  <div class="container">
+<input type="text" id="inputText" placeholder="Enter text to analyze">
+<button onclick="analyzeText()">Analyze</button>
+<button onclick="clearInput()">Clear</button>
+  </div>
+<p id="sentimentOutput"></p>
+</body>
+</html>
